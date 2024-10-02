@@ -1,0 +1,26 @@
+body {
+    background-color: #f8f9fa;
+  }
+  .signup-container {
+    margin-top: 50px;
+  }
+  .signup-box {
+    background-color: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  }
+  .form-control {
+    border-radius: 25px;
+  }
+  .btn-custom {
+    background-color: #28a745;
+    color: white;
+    border-radius: 25px;
+  }
+  .btn-custom:hover {
+    background-color: #218838;
+  }
+  .form-label {
+    font-weight: 500;
+  }
