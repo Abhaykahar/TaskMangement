@@ -62,7 +62,7 @@ function Login() {
               </div>
               {/* Login Button */}
               <div className="d-grid">
-                <button type="submit" className="btn btn-custom btn-block">Login</button>
+                <button type="submit" className="btn mt-2 btn-custom btn-block">Login</button>
               </div>
               {/* Additional Options */}
               <div className="text-center mt-3">
