@@ -30,7 +30,7 @@ function Login() {
   return (
     <div className="container login-container">
       <div className="row justify-content-center">
-        <div className="col-md-6 col-lg-4">
+        <div className="col-md-6 col-lg-5">
           <div className="login-box p-4">
             <h3 className="text-center mb-4">Login</h3>
             <form onSubmit={handleLogin}>
