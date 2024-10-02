@@ -6,7 +6,8 @@ function Signup() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState(''); // New state for confirm password
+  const [confirmPassword, setConfirmPassword] = useState(''); // State for confirm password
+  const [role, setRole] = useState('user'); // New state for role
   const navigate = useNavigate();
 
   const handleSignup = (e) => {
@@ -23,6 +24,7 @@ function Signup() {
       name,
       email,
       password,
+      role, // Save the selected role (admin or user)
     };
 
     // Store user info in localStorage
@@ -92,6 +94,20 @@ function Signup() {
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   required
                 />
+              </div>
+              {/* Role Selection (Admin or User) */}
+              <div className="mb-3">
+                <label htmlFor="role" className="form-label">Select Role</label>
+                <select
+                  className="form-select"
+                  id="role"
+                  value={role}
+                  onChange={(e) => setRole(e.target.value)}
+                  required
+                >
+                  <option value="user">User</option>
+                  <option value="admin">Admin</option>
+                </select>
               </div>
               {/* Terms and Conditions Checkbox */}
               <div className="mb-3 form-check">

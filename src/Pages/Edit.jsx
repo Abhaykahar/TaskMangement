@@ -68,11 +68,11 @@ const Edit = () => {
                         
                         <form onSubmit={handle} className='border  p-3 shadow'>
                             <div className="mb-3">
-                                <label htmlFor="exampleInputEmail1" className="form-label">Title</label>
+                                <label htmlFor="exampleInputEmail1" className="form-label">Task Title</label>
                                 <input type="text" className="form-control" onChange={(e) => setTitle(e.target.value)} value={title}  />
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="exampleInputPassword1" className="form-label">Description</label>
+                                <label htmlFor="exampleInputPassword1" className="form-label">Task Description</label>
                                 <input type="text" className="form-control" onChange={(e) => setDep(e.target.value)} value={dep}  />
                             </div>
                             

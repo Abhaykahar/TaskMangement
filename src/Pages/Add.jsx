@@ -64,23 +64,23 @@ const Add = () => {
                         <form onSubmit={handle} className='border p-3 shadow bg-light'>
                             <h3 className='mb-3 text-center'>Add Task</h3>
                             <div className="mb-3">
-                                <label htmlFor="name" className="form-label">Name</label>
+                                <label htmlFor="name" className="form-label">Task Name</label>
                                 <input type="text" className="form-control" onChange={(e) => setName(e.target.value)} value={name} />
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="title" className="form-label">Title</label>
+                                <label htmlFor="title" className="form-label">Task Title</label>
                                 <input type="text" className="form-control" onChange={(e) => setTitle(e.target.value)} value={title} />
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="description" className="form-label">Description</label>
+                                <label htmlFor="description" className="form-label">Task Description</label>
                                 <input type="text" className="form-control" onChange={(e) => setDep(e.target.value)} value={dep} />
                             </div>
                             <div className="mb-3">
-                                <label htmlFor="gender" className="form-label">Gender</label>
+                                <label htmlFor="gender" className="form-label">type</label>
                                 <select className="form-select" onChange={(e) => setGender(e.target.value)} value={gender}>
-                                    <option value="">Select Gender</option>
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
+                                    <option value="">Select type</option>
+                                    <option value="Hard">Hard</option>
+                                    <option value="Easy">easy</option>
                                     <option value="Other">Other</option>
                                 </select>
                             </div>

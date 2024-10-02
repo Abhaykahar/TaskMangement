@@ -7,173 +7,121 @@ import { useNavigate } from 'react-router-dom';
 const View = () => {
   const [record, setRecords] = useState([]);
   const [mdelete, setMDelete] = useState([]);
-  const [mstatus, setMStatus] = useState([]);
   const [filterStatus, setFilterStatus] = useState("");
   const [filterData, setFilterData] = useState([]);
-  const [searchTerm, setSearchTerm] = useState(""); 
-  const navigation = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
 
-  // Fetch records from localStorage on component mount
   useEffect(() => {
-    let storedRecord = JSON.parse(localStorage.getItem('corse')) || [];
+    const storedRecord = JSON.parse(localStorage.getItem('corse')) || [];
     setRecords(storedRecord);
-    setFilterData(storedRecord); // Initialize filterData with full record list
+    setFilterData(storedRecord);
   }, []);
 
-  // Delete a single record
+  // Delete single record
   const deleteUser = (id) => {
-    let d = record.filter((val) => val.id !== id);
-    localStorage.setItem('corse', JSON.stringify(d));
+    const updatedRecords = record.filter((val) => val.id !== id);
+    localStorage.setItem('corse', JSON.stringify(updatedRecords));
     toast.error("Record deleted successfully...");
-    setRecords(d);
-    setFilterData(d); // Update filtered data
+    setRecords(updatedRecords);
+    setFilterData(updatedRecords);
   };
 
-  // Select multiple records for deletion
-  const alldelete = (id, checked) => {
-    let all = [...mdelete];
-    if (checked) {
-      all.push(id);
-    } else {
-      all = all.filter((val) => val !== id);
-    }
-    setMDelete(all);
-  };
-
-  // Delete multiple records
-  const deletemultiple = () => {
-    if (mdelete.length === 0) {
-      toast("Minimum 1 row should be selected..");
-      return false;
-    }
-    let md = record.filter((val) => !mdelete.includes(val.id));
-    localStorage.setItem('corse', JSON.stringify(md));
-    setRecords(md);
-    setFilterData(md); // Update filtered data
-    setMDelete([]);
-  };
-
-  // Select multiple records to change status
-  const multipleStu = (id, checked) => {
-    let all = [...mstatus];
-    if (checked) {
-      all.push(id);
-    } else {
-      all = all.filter((val) => val !== id);
-    }
-    setMStatus(all);
-  };
-
-  // Change status of selected records
-  const allStatus = () => {
-    if (mstatus.length === 0) {
-      toast("Minimum 1 row should be selected..");
-      return false;
-    }
-
-    let allSelected = record.map((val) => {
-      if (mstatus.includes(val.id)) {
-        val.status = val.status === "active" ? "deactive" : "active";
+  // Toggle status of a single record
+  const toggleStatus = (id) => {
+    const updatedRecords = record.map((val) => {
+      if (val.id === id) {
+        return { ...val, status: val.status === "active" ? "deactive" : "active" };
       }
       return val;
     });
-    localStorage.setItem('corse', JSON.stringify(allSelected));
-    setRecords(allSelected);
-    setFilterData(allSelected); // Update filtered data
-    setMStatus([]);
+
+    localStorage.setItem('corse', JSON.stringify(updatedRecords));
+    setRecords(updatedRecords);
+    setFilterData(updatedRecords);
+    toast.success("Status updated successfully.");
   };
 
-  // Filter records based on status
+  // Filter records by status
   useEffect(() => {
     if (filterStatus !== "") {
-      let f = record.filter((val) => val.status === filterStatus);
-      setFilterData(f);
+      const filtered = record.filter((val) => val.status === filterStatus);
+      setFilterData(filtered);
     } else {
       setFilterData(record);
     }
   }, [filterStatus, record]);
 
-  // Filter records based on search term (in title or description)
+  // Filter records by search term (title or description)
   const filteredRecords = filterData.filter((val) => {
-    const title = val.title ? val.title.toLowerCase() : ''; 
-    const dep = val.dep ? val.dep.toLowerCase() : ''; 
-
-    return title.includes(searchTerm.toLowerCase()) || 
-           dep.includes(searchTerm.toLowerCase());
+    const title = val.title ? val.title.toLowerCase() : '';
+    const dep = val.dep ? val.dep.toLowerCase() : '';
+    const name = val.name ? val.name.toLowerCase() : '';
+    return title.includes(searchTerm.toLowerCase()) || dep.includes(searchTerm.toLowerCase()) || name.includes(searchTerm.toLowerCase());
   });
 
   return (
     <div>
       <Header />
       <div className="container mt-5">
-        <div className="row">
+        <div className="row mb-3">
           <div className="col-lg-12">
-
             {/* Search input field */}
-            <div className="mb-3">
-              <input 
-                type="text" 
-                className="form-control" 
-                placeholder="Search by title or description..." 
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)} // Update search term on change
-              />
-            </div>
-
-            <table className="table border p-3">
-              <thead>
-                <tr align="center">
-                  <th scope="col">Name</th>
-                  <th scope="col">Task</th>
-                  <th scope="col">Description</th>
-                  <th scope="col">Gender</th>
-                  <th scope="col">Action</th>
-                  <th scope="col">Edit</th>
-                  <th scope="col">Status</th>
-                  <th scope="col">
-                    <button className='btn btn-success btn-sm' onClick={allStatus}>Change Status</button>
-                  </th>
-                  <th scope="col">
-                    <button className='btn btn-danger btn-sm' onClick={deletemultiple}>Delete</button>
-                  </th>
-                  <th scope="col">
-                    <select className='p-1' onChange={(e) => setFilterStatus(e.target.value)}>
-                      <option value="">-- select --</option>
-                      <option value="active">Active</option>
-                      <option value="deactive">Deactive</option>
-                    </select>
-                  </th>
-                </tr>
-              </thead>
-              <tbody align='center'>
-                { filteredRecords.map((val, index) => (
-                  <tr key={index}>
-
-                    <td>{val.name}</td>
-                    <td>{val.title}</td>
-                    <td>{val.dep}</td>
-                    <td>{val.gender}</td>
-                    <td>
-                      <button className='btn btn-danger btn-sm' onClick={() => deleteUser(val.id)}>Delete</button>
-                    </td>
-                    <td>
-                      <button className='btn btn-sm btn-success' onClick={() => navigation("/edit", { state: val })}>Edit</button>
-                    </td>
-                    <td>{val.status}</td>
-                    <td>
-                      <input type="checkbox" checked={mstatus.includes(val.id)} onChange={(e) => multipleStu(val.id, e.target.checked)} />
-                    </td>
-                    <td>
-                      <input type="checkbox" onChange={(e) => alldelete(val.id, e.target.checked)} />
-                    </td>
-                    <td></td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <input
+              type="text"
+              className="form-control mb-4"
+              placeholder="Search by title or description..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)} 
+            />
           </div>
         </div>
+
+        <div className="row">
+          {filteredRecords.length === 0 && (
+            <p className="text-center">No records found.</p>
+          )}
+          {filteredRecords.map((val, index) => (
+            <div className="col-md-4 mb-4" key={index}>
+              <div className="card h-100">
+                <div className="card-body">
+                  {/* Title and Description */}
+                  <h5 className="card-title text-capitalize">{val.name}</h5>
+                  <h6 className="card-subtitle mb-2 text-muted">{val.title}</h6>
+                  <p className="card-text"><strong>Description:</strong> {val.dep}</p>
+
+                  {/* Gender and Status */}
+                  <p className="card-text"><strong>Type:</strong> {val.gender}</p>
+                  <p className="card-text">
+                    <strong>Status:</strong> 
+                    <span className={val.status === "active" ? "text-success" : "text-danger"}>
+                      {val.status}
+                    </span>
+                  </p>
+
+                  {/* Action Buttons */}
+                  <div className="d-flex justify-content-between">
+                    <button className="btn btn-danger btn-sm" onClick={() => deleteUser(val.id)}>Delete</button>
+                    <button className="btn btn-success btn-sm" onClick={() => navigate("/edit", { state: val })}>Edit</button>
+                  </div>
+
+                  {/* Status Toggle Button */}
+                  <div className="d-grid mt-3">
+                    <button 
+                      className={`btn btn-${val.status === "active" ? "warning" : "primary"} btn-sm`} 
+                      onClick={() => toggleStatus(val.id)}
+                    >
+                      {val.status === "active" ? "Deactivate" : "Activate"}
+                    </button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
+
       <ToastContainer
         position="top-right"
         autoClose={1000}
@@ -188,6 +136,6 @@ const View = () => {
       />
     </div>
   );
-}
+};
 
 export default View;

@@ -29,3 +29,7 @@ React.js
 React Router for navigation
 Bootstrap for styling
 react-toastify for notifications -->
+
+<!-- 
+deployed link :-
+https://task-mangement-opal.vercel.app/ -->
