@@ -1,4 +1,4 @@
-<!-- Task Management System
+Task Management System
 A user-friendly web application for managing courses, built with React. This application enables users to sign up, log in, and perform various operations on course records, such as adding, viewing, editing, and deleting. Users can also filter courses based on their status.
 
 Table of Contents
@@ -30,6 +30,6 @@ React Router for navigation
 Bootstrap for styling
 react-toastify for notifications -->
 
-<!-- 
+
 deployed link :-
-https://task-mangement-opal.vercel.app/ -->
+https://task-mangement-opal.vercel.app/
